@@ -1,7 +1,13 @@
+using System.Data.SqlClient;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddTransient<SqlConnection>(sp =>
+    new SqlConnection(sp
+        .GetRequiredService<IConfiguration>()
+        .GetConnectionString("conn")));
 
 var app = builder.Build();
 

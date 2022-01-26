@@ -1,10 +1,20 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Login page";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Welcome to Homework 4</h1>
+    <p>Please sign in to continue.</p>
+
+    <form method="post" asp-page="Index">
+        @Html.Label(nameof(Model.Username))
+        @Html.TextBoxFor(m => m.Username)
+
+        @Html.Label(nameof(Model.Password))
+        @Html.PasswordFor(m => m.Password)
+        
+        <button type="submit" class="btn btn-primary">Login!</button>
+    </form>
 </div>
