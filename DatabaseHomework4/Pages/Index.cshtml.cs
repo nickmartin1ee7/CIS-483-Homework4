@@ -16,12 +16,11 @@ public class IndexModel : PageModel
         _sqlConnection = sqlConnection;
     }
 
-    public string Username => (string)TempData[nameof(Username)];
-    public string Password => (string)TempData[nameof(Password)];
+    public string? Username => TempData[nameof(Username)] as string;
+    public string? Password => TempData[nameof(Password)] as string;
 
     public void OnGet()
     {
-
     }
 
     public async Task<IActionResult> OnPost(CancellationToken cancellationToken, [FromForm] string username, [FromForm] string password)
@@ -30,6 +29,9 @@ public class IndexModel : PageModel
         TempData[nameof(Password)] = password;
 
         var result = await RunQueryAsync(cancellationToken);
+
+        TempData.Remove(nameof(Username));
+        TempData.Remove(nameof(Password));
 
         return result
             ? RedirectToPage(nameof(Index)) // TODO blog
@@ -50,16 +52,30 @@ public class IndexModel : PageModel
             
             if (sqlDataReader.HasRows && await sqlDataReader.ReadAsync(cancellationToken))
             {
-                HttpContext.Session.SetString("userid", sqlDataReader["Login_ID"] as string);
+                var userId = sqlDataReader["Login_ID"];
+                TempData["userid"] = userId;
+                TempData.Keep("userid");
+
+#if DEBUG
+                TempData.Add("Message", $"Logged in as user {userId}");
+#endif
+
                 return true;
             }
+
+            TempData.Add("Message", "Incorrect Username or Password combination");
+            TempData.Remove("userid");
 
             return false;
         }
         catch (Exception ex)
         {
             Debug.WriteLine(ex.ToString());
-            throw;
+
+            TempData.Add("Message", "Login services are unavailable at this time");
+            TempData.Remove("userid");
+
+            return false;
         }
         finally
         {

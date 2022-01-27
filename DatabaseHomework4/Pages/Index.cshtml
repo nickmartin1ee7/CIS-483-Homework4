@@ -18,3 +18,14 @@
         <button type="submit" class="btn btn-primary">Login!</button>
     </form>
 </div>
+
+@if (TempData.ContainsKey("Message"))
+{
+    <script type="text/javascript">
+        window.onload = function () {
+            alert("@TempData["Message"]");
+        };
+    </script>
+
+    TempData.Remove("Message");
+}
