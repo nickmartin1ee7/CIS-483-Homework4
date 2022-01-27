@@ -2,11 +2,11 @@
 
 namespace DatabaseHomework4.Pages;
 
-public class PrivacyModel : PageModel
+public class AccountModel : PageModel
 {
-    private readonly ILogger<PrivacyModel> _logger;
+    private readonly ILogger<AccountModel> _logger;
 
-    public PrivacyModel(ILogger<PrivacyModel> logger)
+    public AccountModel(ILogger<AccountModel> logger)
     {
         _logger = logger;
     }

@@ -34,7 +34,7 @@ public class IndexModel : PageModel
         TempData.Remove(nameof(Password));
 
         return result
-            ? RedirectToPage("Privacy")
+            ? RedirectToPage("Account")
             : RedirectToPage("Index");
     }
 
