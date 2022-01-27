@@ -5,17 +5,23 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome to Homework 4</h1>
+    <h1 class="display-4">Homework 4</h1>
     <p>Please sign in to continue.</p>
 
     <form method="post" asp-page="Index">
-        @Html.Label(nameof(Model.Username))
-        @Html.TextBoxFor(m => m.Username)
-
-        @Html.Label(nameof(Model.Password))
-        @Html.PasswordFor(m => m.Password)
+        <div>
+            @Html.Label(nameof(Model.Username))
+            @Html.TextBoxFor(m => m.Username)
+        </div>
         
-        <button type="submit" class="btn btn-primary">Login!</button>
+        <div style="margin-top: 2em">
+            @Html.Label(nameof(Model.Password))
+            @Html.PasswordFor(m => m.Password)
+        </div>
+        
+        <div style="margin-top: 2em">
+            <button type="submit" class="btn btn-primary">Login</button>
+        </div>
     </form>
 </div>
 
