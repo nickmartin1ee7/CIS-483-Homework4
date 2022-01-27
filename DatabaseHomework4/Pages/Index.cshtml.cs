@@ -34,8 +34,8 @@ public class IndexModel : PageModel
         TempData.Remove(nameof(Password));
 
         return result
-            ? RedirectToPage(nameof(Index)) // TODO blog
-            : RedirectToPage(nameof(Index));
+            ? RedirectToPage("Privacy")
+            : RedirectToPage("Index");
     }
 
     private async Task<bool> RunQueryAsync(CancellationToken cancellationToken)
@@ -55,10 +55,6 @@ public class IndexModel : PageModel
                 var userId = sqlDataReader["Login_ID"];
                 TempData["userid"] = userId;
                 TempData.Keep("userid");
-
-#if DEBUG
-                TempData.Add("Message", $"Logged in as user {userId}");
-#endif
 
                 return true;
             }

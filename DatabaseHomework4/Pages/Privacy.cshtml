@@ -1,8 +1,18 @@
 ﻿@page
 @model PrivacyModel
 @{
-    ViewData["Title"] = "Privacy Policy";
+    ViewData["Title"] = "Dashboard";
 }
+
 <h1>@ViewData["Title"]</h1>
 
-<p>Use this page to detail your site's privacy policy.</p>
+@if (TempData.ContainsKey("userid"))
+{
+    <form asp-page-handler="logout"  method="post">
+        <button class="btn btn-secondary">Logout</button>
+    </form>
+}
+else
+{
+    Response.Redirect("Index");
+}

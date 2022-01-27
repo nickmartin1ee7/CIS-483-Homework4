@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace DatabaseHomework4.Pages;
 
@@ -12,8 +11,10 @@ public class PrivacyModel : PageModel
         _logger = logger;
     }
 
-    public void OnGet()
+    public void OnPostLogout()
     {
+        TempData.Clear();
+        Response.Redirect("Index");
     }
 }
 
