@@ -1,4 +1,5 @@
-﻿using System.Data.SqlClient;
+﻿using System.Data;
+using System.Data.SqlClient;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -44,12 +45,17 @@ public class IndexModel : PageModel
     {
         try
         {
-            // Intentional SQL Injection possible here due to lack of parametrization
-            var sqlQuery = string.Format(_sprocs.Login, Username, Password);
+            SqlParameter userParameter = new SqlParameter("username", SqlDbType.VarChar);
+            userParameter.Value = Username;
+
+            SqlParameter passwordParameter = new SqlParameter("password", SqlDbType.VarChar);
+            passwordParameter.Value = Password;
+
+            SqlCommand sqlCommand = new SqlCommand(_sprocs.Login, _sqlConnection);
+            sqlCommand.Parameters.Add(userParameter);
+            sqlCommand.Parameters.Add(passwordParameter);
 
             await _sqlConnection.OpenAsync(cancellationToken);
-
-            SqlCommand sqlCommand = new SqlCommand(sqlQuery, _sqlConnection);
             SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync(cancellationToken);
             
             if (sqlDataReader.HasRows && await sqlDataReader.ReadAsync(cancellationToken))
