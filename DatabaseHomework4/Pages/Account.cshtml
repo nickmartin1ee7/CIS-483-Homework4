@@ -6,9 +6,9 @@
 
 <h1>@ViewData["Title"]</h1>
 
-@if (TempData.ContainsKey("userid"))
+@if (TempData.ContainsKey("user"))
 {
-    <p>Welcome user #@TempData["userid"]!</p>
+    <p>Welcome, @TempData["user"]!</p>
 
     <form asp-page-handler="logout"  method="post">
         <button class="btn btn-secondary">Logout</button>

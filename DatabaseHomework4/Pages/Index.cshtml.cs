@@ -60,15 +60,15 @@ public class IndexModel : PageModel
             
             if (sqlDataReader.HasRows && await sqlDataReader.ReadAsync(cancellationToken))
             {
-                var userId = sqlDataReader["Login_ID"];
-                TempData["userid"] = userId;
-                TempData.Keep("userid");
+                var userId = sqlDataReader["Login_Username"];
+                TempData["user"] = userId;
+                TempData.Keep("user");
 
                 return true;
             }
 
             TempData.Add("Message", "Incorrect Username or Password combination");
-            TempData.Remove("userid");
+            TempData.Remove("user");
 
             return false;
         }
@@ -77,7 +77,7 @@ public class IndexModel : PageModel
             Debug.WriteLine(ex.ToString());
 
             TempData.Add("Message", "Login services are unavailable at this time");
-            TempData.Remove("userid");
+            TempData.Remove("user");
 
             return false;
         }
