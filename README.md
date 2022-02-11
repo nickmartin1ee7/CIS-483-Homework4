@@ -8,6 +8,11 @@
 * This project demonstrates a blind SQL injection vulnerability by intentionally string formatting user controlled input directly into a login SQL query.
 * This was created for University of Louisville's Database Security Professor Ghiyoung Im.
 
+## Branches
+
+* The `main` branch is vulnerabile.
+* The `patched` branch properly parametrizes the user input.
+
 ## How to Build
 
 * First download and install the [dotnet 6 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/6.0).
