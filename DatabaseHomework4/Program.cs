@@ -2,20 +2,29 @@ using System.Data.SqlClient;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+#region Services
+
 builder.Services.AddRazorPages();
+
+builder.Services.AddTransient<Sprocs>(sp =>
+    sp.GetRequiredService<IConfiguration>()
+    .GetSection(nameof(Sprocs))
+    .Get<Sprocs>());
+
 builder.Services.AddTransient<SqlConnection>(sp =>
     new SqlConnection(sp
         .GetRequiredService<IConfiguration>()
         .GetConnectionString("conn")));
 
+#endregion Services
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+#region HTTP Request Pipeline
+
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -27,5 +36,7 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapRazorPages();
+
+#endregion HTTP Request Pipeline
 
 app.Run();

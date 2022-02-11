@@ -9,11 +9,13 @@ public class IndexModel : PageModel
 {
     private readonly ILogger<IndexModel> _logger;
     private readonly SqlConnection _sqlConnection;
+    private readonly Sprocs _sprocs;
 
-    public IndexModel(ILogger<IndexModel> logger, SqlConnection sqlConnection)
+    public IndexModel(ILogger<IndexModel> logger, SqlConnection sqlConnection, Sprocs sprocs)
     {
         _logger = logger;
         _sqlConnection = sqlConnection;
+        _sprocs = sprocs;
     }
 
     public string? Username => TempData[nameof(Username)] as string;
@@ -42,10 +44,10 @@ public class IndexModel : PageModel
     {
         try
         {
-            await _sqlConnection.OpenAsync(cancellationToken);
+            // Intentional SQL Injection possible here due to lack of parameterization
+            var sqlQuery = string.Format(_sprocs.Login, Username, Password);
 
-            // SQL Injection
-            var sqlQuery = $"SELECT * FROM Login WHERE Login_Username='{Username}' AND Login_Password='{Password}'";
+            await _sqlConnection.OpenAsync(cancellationToken);
 
             SqlCommand sqlCommand = new SqlCommand(sqlQuery, _sqlConnection);
             SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync(cancellationToken);
