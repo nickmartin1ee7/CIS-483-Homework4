@@ -44,7 +44,7 @@ public class IndexModel : PageModel
     {
         try
         {
-            // Intentional SQL Injection possible here due to lack of parameterization
+            // Intentional SQL Injection possible here due to lack of parametrization
             var sqlQuery = string.Format(_sprocs.Login, Username, Password);
 
             await _sqlConnection.OpenAsync(cancellationToken);
