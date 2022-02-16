@@ -27,6 +27,14 @@ public class IndexModel : PageModel
 
     public async Task<IActionResult> OnPost(CancellationToken cancellationToken, [FromForm] string username, [FromForm] string password)
     {
+        TempData.Clear();
+        
+        if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
+        {
+            TempData.Add("Message", "Username or password cannot be empty!");
+            return RedirectToPage("Index");
+        }
+
         TempData[nameof(Username)] = username;
         TempData[nameof(Password)] = password;
 
@@ -54,15 +62,14 @@ public class IndexModel : PageModel
             
             if (sqlDataReader.HasRows && await sqlDataReader.ReadAsync(cancellationToken))
             {
-                var userId = sqlDataReader["Login_Username"];
-                TempData["user"] = userId;
+                var userData = sqlDataReader["Login_Username"];
+                TempData["user"] = userData;
                 TempData.Keep("user");
 
                 return true;
             }
 
-            TempData.Add("Message", "Incorrect Username or Password combination");
-            TempData.Remove("user");
+            TempData.Add("Message", "Incorrect Username or Password combination!");
 
             return false;
         }
@@ -70,8 +77,7 @@ public class IndexModel : PageModel
         {
             Debug.WriteLine(ex.ToString());
 
-            TempData.Add("Message", $"Login services are unavailable at this time (error {ex.HResult})");
-            TempData.Remove("user");
+            TempData.Add("Message", $"Login services are unavailable at this time! (error {ex.HResult}) {ex.Message}");
 
             return false;
         }
