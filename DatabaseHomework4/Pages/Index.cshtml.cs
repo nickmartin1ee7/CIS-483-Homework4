@@ -70,7 +70,7 @@ public class IndexModel : PageModel
         {
             Debug.WriteLine(ex.ToString());
 
-            TempData.Add("Message", "Login services are unavailable at this time");
+            TempData.Add("Message", $"Login services are unavailable at this time (error {ex.HResult})");
             TempData.Remove("user");
 
             return false;
