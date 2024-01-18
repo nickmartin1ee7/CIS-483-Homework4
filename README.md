@@ -5,12 +5,12 @@
 
 ## Description
 
-* This project demonstrates a blind SQL injection vulnerability by intentionally string formatting user controlled input directly into a login SQL query.
-* This was created for University of Louisville's Database Security Professor Ghiyoung Im.
+* This project demonstrates a blind SQL injection vulnerability by intentionally string formatting user-controlled input directly into a login SQL query.
+* This was created for the University of Louisville's Database Security Professor Ghiyoung Im.
 
 ## Branches
 
-* The `main` branch is vulnerabile.
+* The `main` branch is vulnerable.
 * The `patched` branch properly parametrizes the user input.
 
 ## How to Build
